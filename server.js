@@ -1,14 +1,14 @@
 const app = require("./app");
 const mongoose = require("mongoose");
 
-// process.on("uncaughtException", (err) => {
-//   console.log(err.name, err);
-//   console.log("Unacaught expecton!server is closing...");
+process.on("uncaughtException", (err) => {
+  console.log(err.name, err);
+  console.log("Unacaught expecton!server is closing...");
 
-//   server.close(() => {
-//     server.exit(1);
-//   });
-// });
+  server.close(() => {
+    server.exit(1);
+  });
+});
 
 const DB = process.env.Database.replace(
   "<password>",

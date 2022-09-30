@@ -35,8 +35,8 @@ app.use(xss());
 app.use(mongoSanitize());
 app.use("/api", apiLimiter);
 
-app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/pokemon", pokemonRoutes);
+app.use("/", userRoutes);
+app.use("/", pokemonRoutes);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Could'nt find ${req.originalUrl} on this server`, 404));

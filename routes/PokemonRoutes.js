@@ -7,10 +7,10 @@ const router = express.Router();
 router.use(authController.protect);
 
 router
-  .route("/")
+  .route("/pokemons")
   .post(pokemonController.createPokemon)
   .get(pokemonController.getAllPokemons);
 
-router.route("/:id").get(pokemonController.getAPokemon);
+router.route("/pokemons/:id").get(pokemonController.getAPokemon);
 
 module.exports = router;

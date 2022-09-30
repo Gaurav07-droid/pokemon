@@ -11,6 +11,19 @@ const signToken = (user, res) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
+  console.log(process.env.JWT_COOKIE_EXP);
+  const cookieOption = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+
+  if (process.env.NODE_ENV == "production") cookieOption.secure = true;
+
+  res.cookie("jwt", token, cookieOption);
+  res.password = undefined;
+
   res.status(200).json({
     status: "success",
     token,
@@ -55,6 +68,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
+  } else if (req.cookie.jwt) {
+    token = req.cookie.jwt;
   }
 
   if (!token)
@@ -71,5 +86,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   req.user = currentUser;
+
   next();
 });
