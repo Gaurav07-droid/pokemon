@@ -21,7 +21,7 @@ const signToken = (user, res) => {
   if (process.env.NODE_ENV == "production") cookieOption.secure = true;
 
   res.cookie("jwt", token, cookieOption);
-  res.password = undefined;
+  // res.password = undefined;
 
   res.status(200).json({
     status: "success",
@@ -67,8 +67,8 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookie.jwt) {
-    token = req.cookie.jwt;
+  } else if (req.cookies?.jwt) {
+    token = req.cookies.jwt;
   }
 
   if (!token)
